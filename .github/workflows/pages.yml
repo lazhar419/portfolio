@@ -1,0 +1,75 @@
+name: Publish portfolio
+
+on:
+  # Push a commit to this branch to publish the current main branch.
+  push:
+    branches: [pages-publish]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: read
+    steps:
+      - name: Check out portfolio
+        uses: actions/checkout@v6
+        with:
+          ref: main
+          lfs: true
+          persist-credentials: false
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Assemble portfolio
+        shell: bash
+        run: |
+          mkdir -p _site
+          cp index.html _site/
+          cp -r '01-arpg关卡白盒demo' '_site/arpg关卡白盒demo'
+          cp -r '02-arpg关卡拆解' '_site/arpg关卡拆解'
+          cp -r '03-解密关卡白盒demo' '_site/解密关卡白盒demo'
+          cp -r '04-解密类游戏拆解' '_site/解密类游戏拆解'
+          if [[ -d posters ]]; then
+            cp -r posters _site/
+          fi
+
+          # Reject Git LFS pointers in the published site.
+          shopt -s nullglob
+          videos=(_site/arpg关卡白盒demo/*.mp4 _site/解密关卡白盒demo/*.mp4)
+          [[ ${#videos[@]} -eq 3 ]]
+          for video in "${videos[@]}"; do
+            [[ $(stat --format=%s "$video") -gt 1024 ]]
+            if head -c 128 "$video" | grep -aq '^version https://git-lfs.github.com/spec/v1'; then
+              echo "Missing Git LFS object for $video" >&2
+              exit 1
+            fi
+          done
+          [[ $(du -sb _site | cut -f1) -lt 1000000000 ]]
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
