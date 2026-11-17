@@ -1,0 +1,338 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="关卡设计作品集，包含 ARPG 与解密关卡白盒演示，以及《魔法学院》和《双人成行》关卡拆解。">
+  <meta name="theme-color" content="#171b19">
+  <title>关卡设计作品集</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #171b19;
+      --surface: #202622;
+      --panel: #242c25;
+      --text: #f3f4ed;
+      --muted: #bdc8bd;
+      --accent: #dbe797;
+      --line: #465147;
+      font-family: "Inter", "PingFang SC", "Microsoft YaHei", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-padding-block: 24px; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+    }
+
+    a { color: inherit; }
+
+    a:focus-visible, video:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 4px;
+    }
+
+    .wrap {
+      width: min(1120px, calc(100% - 2 * clamp(18px, 5vw, 56px)));
+      margin-inline: auto;
+    }
+
+    .masthead { border-bottom: 1px solid var(--line); }
+
+    .masthead .wrap {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px 20px;
+      min-height: 66px;
+      padding-block: 12px;
+    }
+
+    .masthead a { text-decoration: none; }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.95rem;
+      font-weight: 650;
+    }
+
+    .mark {
+      width: 12px;
+      height: 12px;
+      border: 2px solid var(--accent);
+      transform: rotate(45deg);
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    nav a:hover { color: var(--accent); }
+
+    .hero {
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      padding-block: clamp(44px, 7vw, 82px);
+      background: radial-gradient(ellipse at 84% 16%, #303a29, transparent 65%);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .hero::before {
+      position: absolute;
+      z-index: -1;
+      inset: 0;
+      background: radial-gradient(circle, #bbc983 0.6px, transparent 1px) 0 0 / 16px 16px;
+      mask-image: linear-gradient(100deg, transparent 28%, #000 100%);
+      opacity: 0.2;
+      content: "";
+    }
+
+    h1, h2, h3 { margin: 0; }
+
+    h1 {
+      font-size: clamp(2.25rem, 7.7vw, 5.15rem);
+      font-weight: 720;
+      letter-spacing: -0.042em;
+      line-height: 1.12;
+      text-wrap: balance;
+    }
+
+    main { padding-block: clamp(40px, 6vw, 78px); }
+
+    .section + .section { margin-top: clamp(56px, 9vw, 100px); }
+
+    .section-title {
+      margin-bottom: 24px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--line);
+      font-size: clamp(1.35rem, 3.5vw, 1.85rem);
+      letter-spacing: -0.02em;
+    }
+
+    .project + .project { margin-top: 32px; }
+
+    .project-heading {
+      display: flex;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 4px 14px;
+      margin-bottom: 12px;
+    }
+
+    .project-heading h3 {
+      font-size: 1.15rem;
+      font-weight: 680;
+    }
+
+    .project-type {
+      color: var(--muted);
+      font-size: 0.86rem;
+    }
+
+    .video-grid, .documents {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    figure {
+      min-width: 0;
+      margin: 0;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 11px;
+      background: var(--surface);
+    }
+
+    video {
+      display: block;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      object-fit: contain;
+      background: #101310;
+    }
+
+    figcaption {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 6px 12px;
+      padding: 12px 15px;
+      font-size: 0.89rem;
+    }
+
+    .video-name { font-weight: 620; }
+
+    .duration {
+      color: var(--muted);
+      font-variant-numeric: tabular-nums;
+      font-weight: 400;
+    }
+
+    .direct {
+      color: var(--accent);
+      text-underline-offset: 3px;
+    }
+
+    .puzzle-player { max-width: 720px; }
+
+    .document {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 14px;
+      padding: 18px 16px;
+      border: 1px solid var(--line);
+      border-radius: 11px;
+      background: var(--surface);
+      text-decoration: none;
+    }
+
+    .document:hover { background: var(--panel); }
+
+    .file-type {
+      display: grid;
+      place-items: center;
+      min-width: 43px;
+      min-height: 38px;
+      border: 1px solid #677347;
+      border-radius: 6px;
+      color: var(--accent);
+      font-size: 0.71rem;
+      font-weight: 690;
+      letter-spacing: 0.06em;
+    }
+
+    .document strong, .document small { display: block; }
+
+    .document strong { font-size: 1.05rem; }
+
+    .document small {
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 0.83rem;
+    }
+
+    .document .arrow { color: var(--accent); }
+
+    .footer {
+      padding-block: 18px 26px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 0.84rem;
+    }
+
+    .footer a { text-underline-offset: 3px; }
+
+    @media (max-width: 700px) {
+      .video-grid, .documents { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 380px) {
+      .masthead .wrap { gap: 5px 12px; }
+      nav { gap: 14px; }
+      .document { gap: 10px; }
+    }
+  </style>
+</head>
+<body id="top">
+  <header class="masthead">
+    <div class="wrap">
+      <a class="brand" href="#top"><span class="mark" aria-hidden="true"></span>关卡设计</a>
+      <nav aria-label="作品目录">
+        <a href="#demos">白盒演示</a>
+        <a href="#breakdowns">关卡拆解</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="hero">
+    <div class="wrap">
+      <h1>关卡设计作品集</h1>
+    </div>
+  </div>
+
+  <main class="wrap">
+    <section class="section" id="demos" aria-labelledby="demos-title">
+      <h2 class="section-title" id="demos-title">白盒演示</h2>
+
+      <article class="project" aria-labelledby="temple-title">
+        <div class="project-heading">
+          <h3 id="temple-title">沉香古刹</h3>
+          <span class="project-type">第三人称类魂 ARPG · 关卡白盒 Demo</span>
+        </div>
+        <div class="video-grid">
+          <figure>
+            <video controls preload="metadata" playsinline poster="./posters/temple-1.jpg" aria-label="沉香古刹上集">
+              <source src="./arpg关卡白盒demo/沉乡古刹_关卡白盒演示_上集_男声配音_BGM.mp4" type="video/mp4">
+            </video>
+            <figcaption>
+              <span class="video-name">上集 <span class="duration">· 23:51</span></span>
+              <a class="direct" href="./arpg关卡白盒demo/沉乡古刹_关卡白盒演示_上集_男声配音_BGM.mp4" target="_blank" rel="noopener" aria-label="新窗口打开沉香古刹上集视频">打开视频 ↗</a>
+            </figcaption>
+          </figure>
+          <figure>
+            <video controls preload="metadata" playsinline poster="./posters/temple-2.jpg" aria-label="沉香古刹下集">
+              <source src="./arpg关卡白盒demo/沉乡古刹_关卡白盒演示_下集_男声配音_BGM.mp4" type="video/mp4">
+            </video>
+            <figcaption>
+              <span class="video-name">下集 <span class="duration">· 29:47</span></span>
+              <a class="direct" href="./arpg关卡白盒demo/沉乡古刹_关卡白盒演示_下集_男声配音_BGM.mp4" target="_blank" rel="noopener" aria-label="新窗口打开沉香古刹下集视频">打开视频 ↗</a>
+            </figcaption>
+          </figure>
+        </div>
+      </article>
+
+      <article class="project" id="puzzle-demo" aria-labelledby="puzzle-title">
+        <div class="project-heading">
+          <h3 id="puzzle-title">光与影之城</h3>
+          <span class="project-type">第一人称冒险解密 · 关卡白盒 Demo</span>
+        </div>
+        <figure class="puzzle-player">
+          <video controls preload="metadata" playsinline poster="./posters/puzzle.jpg" aria-label="光与影之城关卡白盒演示">
+            <source src="./解密关卡白盒demo/11月17日.mp4" type="video/mp4">
+          </video>
+          <figcaption>
+            <span class="duration">22:08</span>
+            <a class="direct" href="./解密关卡白盒demo/11月17日.mp4" target="_blank" rel="noopener" aria-label="新窗口打开解密关卡白盒演示视频">打开视频 ↗</a>
+          </figcaption>
+        </figure>
+      </article>
+    </section>
+
+    <section class="section" id="breakdowns" aria-labelledby="breakdowns-title">
+      <h2 class="section-title" id="breakdowns-title">关卡拆解</h2>
+      <div class="documents">
+        <a class="document" href="./arpg关卡拆解/魔法学院_高清打印版.pdf" target="_blank" rel="noopener">
+          <span class="file-type">PDF</span>
+          <span><strong>《魔法学院》</strong><small>ARPG 关卡拆解 · 高清打印版</small></span>
+          <span class="arrow" aria-hidden="true">↗</span>
+        </a>
+        <a class="document" href="./解密类游戏拆解/双人成行关卡设计拆解_提交版.pdf" target="_blank" rel="noopener">
+          <span class="file-type">PDF</span>
+          <span><strong>《双人成行》</strong><small>七大章节、37 个小关卡 · 96 页</small></span>
+          <span class="arrow" aria-hidden="true">↗</span>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap"><a href="https://github.com/lazhar419/portfolio">GitHub 仓库</a></div>
+  </footer>
+</body>
+</html>
