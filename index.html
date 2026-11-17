@@ -142,7 +142,7 @@
       font-size: 0.86rem;
     }
 
-    .video-grid, .documents {
+    .video-grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 18px;
@@ -191,6 +191,7 @@
     .puzzle-player { max-width: 720px; }
 
     .document {
+      max-width: 720px;
       display: grid;
       grid-template-columns: auto 1fr auto;
       align-items: center;
@@ -239,7 +240,7 @@
     .footer a { text-underline-offset: 3px; }
 
     @media (max-width: 700px) {
-      .video-grid, .documents { grid-template-columns: 1fr; }
+      .video-grid { grid-template-columns: 1fr; }
     }
 
     @media (max-width: 380px) {
@@ -254,8 +255,8 @@
     <div class="wrap">
       <a class="brand" href="#top"><span class="mark" aria-hidden="true"></span>关卡设计</a>
       <nav aria-label="作品目录">
-        <a href="#demos">白盒演示</a>
-        <a href="#breakdowns">关卡拆解</a>
+        <a href="#arpg">ARPG 关卡</a>
+        <a href="#puzzle">解密关卡</a>
       </nav>
     </div>
   </header>
@@ -267,10 +268,10 @@
   </div>
 
   <main class="wrap">
-    <section class="section" id="demos" aria-labelledby="demos-title">
-      <h2 class="section-title" id="demos-title">白盒演示</h2>
+    <section class="section" id="arpg" aria-labelledby="arpg-title">
+      <h2 class="section-title" id="arpg-title">ARPG 关卡</h2>
 
-      <article class="project" aria-labelledby="temple-title">
+      <article class="project" id="demos" aria-labelledby="temple-title">
         <div class="project-heading">
           <h3 id="temple-title">沉香古刹</h3>
           <span class="project-type">第三人称类魂 ARPG · 关卡白盒 Demo</span>
@@ -297,6 +298,21 @@
         </div>
       </article>
 
+      <article class="project" id="breakdowns" aria-labelledby="arpg-breakdown-title">
+        <div class="project-heading">
+          <h3 id="arpg-breakdown-title">关卡拆解</h3>
+        </div>
+        <a class="document" href="./arpg关卡拆解/魔法学院_高清打印版.pdf" target="_blank" rel="noopener">
+          <span class="file-type">PDF</span>
+          <span><strong>《魔法学院》</strong><small>ARPG 关卡拆解 · 高清打印版</small></span>
+          <span class="arrow" aria-hidden="true">↗</span>
+        </a>
+      </article>
+    </section>
+
+    <section class="section" id="puzzle" aria-labelledby="puzzle-category-title">
+      <h2 class="section-title" id="puzzle-category-title">解密关卡</h2>
+
       <article class="project" id="puzzle-demo" aria-labelledby="puzzle-title">
         <div class="project-heading">
           <h3 id="puzzle-title">光与影之城</h3>
@@ -312,22 +328,17 @@
           </figcaption>
         </figure>
       </article>
-    </section>
 
-    <section class="section" id="breakdowns" aria-labelledby="breakdowns-title">
-      <h2 class="section-title" id="breakdowns-title">关卡拆解</h2>
-      <div class="documents">
-        <a class="document" href="./arpg关卡拆解/魔法学院_高清打印版.pdf" target="_blank" rel="noopener">
-          <span class="file-type">PDF</span>
-          <span><strong>《魔法学院》</strong><small>ARPG 关卡拆解 · 高清打印版</small></span>
-          <span class="arrow" aria-hidden="true">↗</span>
-        </a>
+      <article class="project" aria-labelledby="puzzle-breakdown-title">
+        <div class="project-heading">
+          <h3 id="puzzle-breakdown-title">关卡拆解</h3>
+        </div>
         <a class="document" href="./解密类游戏拆解/双人成行关卡设计拆解_提交版.pdf" target="_blank" rel="noopener">
           <span class="file-type">PDF</span>
           <span><strong>《双人成行》</strong><small>七大章节、37 个小关卡 · 96 页</small></span>
           <span class="arrow" aria-hidden="true">↗</span>
         </a>
-      </div>
+      </article>
     </section>
   </main>
 
